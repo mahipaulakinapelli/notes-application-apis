@@ -1,0 +1,45 @@
+
+server:
+  port: 8080
+
+spring:
+  application:
+    name: NOTES-APPLICATION
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    url: ${SMART_REVIEW_DB_URL:jdbc:postgresql://localhost:5432/notesDB}
+    username: ${SMART_REVIEW_DB_USERNAME:mahipaul}
+    password: ${SMART_REVIEW_DB_PASSWORD:12345678}
+    hikari:
+      maximumPoolSize: 20 #This is the maximum number of connections in the pool
+      minimumIdle: 5 #This is the minimum number of idle connections that HikariCP tries to maintain in the pool
+      idleTimeout: 600000 #This is the maximum amount of time that a connection can sit idle in the pool.600,000 milliseconds (10 minutes)
+      connectionTimeout: 30000 #This is the maximum time that a client will wait for a connection from the pool.30,000 milliseconds (30 seconds)
+      maxLifetime: 1800000 #This is the maximum lifetime of a connection in the pool. Connections will be retired from the pool after this duration.1800000 milliseconds (30 minutes)
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+    properties:
+#      hibernate:
+#        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          batch_size: 100
+        order_inserts: true
+        order_updates: true
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+
+logging.level.org.hibernate.SQL: DEBUG
+logging.level.org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+cors:
+  allowedOrigins: ${APP_URL:http://localhost:4200}
+  allowedMethods: GET, POST, PUT, DELETE, PATCH
+  allowedHeaders: Content-Type, Authorization, X-Requested-With
+  allowCredentials: true
