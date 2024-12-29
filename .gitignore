@@ -18,3 +18,8 @@ logs/
 
 # Spring Boot Devtools
 .spring-boot-devtools.properties
+
+.idea/
+*.iml
+*.iws
+
