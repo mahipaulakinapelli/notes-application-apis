@@ -21,42 +21,42 @@ public class UserController {
     //create
     @PostMapping("/create-user")
     public ResponseEntity<UserDto> createUser(@RequestBody UserDto user){
-        UserDto userDto =  this.userService.createUser(user);
+        UserDto userDto =  userService.createUser(user);
         return ResponseEntity.ok(userDto);
     }
 
     //update
     @PutMapping("/{userId}")
     public ResponseEntity<UserDto> updateUser(@RequestBody UserDto user,@PathVariable UUID userId){
-        UserDto userDto =  this.userService.updateUser(user, userId);
+        UserDto userDto =  userService.updateUser(user, userId);
         return ResponseEntity.ok(userDto);
     }
     //delete
     @DeleteMapping("/{userId}")
     public ResponseEntity<String> deleteUser(@PathVariable UUID userId){
-        this.userService.deleteUser(userId);
+        userService.deleteUser(userId);
         return ResponseEntity.ok("User deleted successfully");
     }
 
     //get
     @GetMapping("/get-user")
     public ResponseEntity<UserDto> getUser(@RequestParam("id") UUID userId){
-        UserDto userDto =  this.userService.getUser(userId);
+        UserDto userDto =  userService.getUser(userId);
         return ResponseEntity.ok(userDto);
     }
 
     //get all
-    @GetMapping("/")
+    @GetMapping("/get-all-users")
     public ResponseEntity<List<UserDto>> getAllUsers(){
-        List<UserDto> userDtos =  this.userService.getAllUser();
-        return ResponseEntity.ok(userDtos);
+        List<UserDto> userDto =  userService.getAllUser();
+        return ResponseEntity.ok(userDto);
     }
 
     @PostMapping("/login")
     public ResponseEntity<UserDto> userLogin(@RequestBody LoginBody loginBody){
         UserDto apiRes = new UserDto();
         try {
-            apiRes =  this.userService.userLogin(loginBody.getEmail(), loginBody.getPassword());
+            apiRes =  userService.userLogin(loginBody.getEmail(), loginBody.getPassword());
             return ResponseEntity.ok(apiRes);
         } catch (Exception e) {
             return new ResponseEntity<UserDto>(apiRes, HttpStatus.UNAUTHORIZED);
