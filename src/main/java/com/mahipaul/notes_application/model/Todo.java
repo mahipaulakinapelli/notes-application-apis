@@ -5,7 +5,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.UuidGenerator;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.UUID;
 
@@ -18,6 +20,7 @@ public class Todo {
 
     @Id
     @Column(name = "id", nullable = false)
+    @UuidGenerator(style = UuidGenerator.Style.TIME)
     private UUID id;
 
     @Column(name = "title", nullable = false)
@@ -26,9 +29,8 @@ public class Todo {
     @Column(name = "description", columnDefinition="TEXT")
     private String description;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
     @Column(name = "date")
-    private Date date;
+    private Timestamp timestamp;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")

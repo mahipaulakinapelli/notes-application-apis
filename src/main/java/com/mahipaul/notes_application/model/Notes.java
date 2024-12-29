@@ -1,12 +1,12 @@
 package com.mahipaul.notes_application.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.UuidGenerator;
 
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 @Entity
@@ -18,6 +18,7 @@ public class Notes {
 
     @Id
     @Column(name = "id", nullable = false)
+    @UuidGenerator(style = UuidGenerator.Style.TIME)
     private UUID id;
 
     @Column(name = "title", nullable = false)
@@ -26,9 +27,8 @@ public class Notes {
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
     @Column(name = "date")
-    private Date date;
+    private Timestamp timestamp;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
