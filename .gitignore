@@ -1,1 +1,20 @@
 build/
+# Gradle Wrapper
+/gradle/wrapper/gradle-wrapper.jar
+
+# Gradle Cache
+.gradle/
+
+# Build Output
+/build/
+out/
+
+# Logs
+*.log
+logs/
+
+# Temporary Files
+*.tmp
+
+# Spring Boot Devtools
+.spring-boot-devtools.properties
