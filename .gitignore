@@ -23,3 +23,8 @@ logs/
 *.iml
 *.iws
 
+# Local Environment Configurations
+*.env
+application-*.properties
+application-*.yaml
+
