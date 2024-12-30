@@ -34,17 +34,9 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        try {
-            UserDto userDTO = new UserDto();
-            userDTO.setName(username);
-            userDTO.setPassword(password);
-
-            User user = userRepository.findByName(username).get();
-            return (UserDetails) user;
-        } catch (Exception e) {
-            log.error("Error getting user details", e);
-        }
-        throw new UsernameNotFoundException("User not found with the name " + username);
+        User user = userRepository.findByName(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+        return new CustomUserDetails(user);
     }
 
 //    public boolean checkIfValidUser(UserDTO userDTO, String userName) {

@@ -34,9 +34,7 @@ public class NotesService {
         Optional<User> user=userRepo.findByEmail(email);
 
         Notes notes= DtoToNotes(notesDto);
-
         user.ifPresent(notes::setUser);
-
         Notes res = notesRepo.save(notes);
         return NotesToDto(res);
     }
@@ -83,6 +81,7 @@ public class NotesService {
         notesDto.setId(notes.getId());
         notesDto.setTitle(notes.getTitle());
         notesDto.setDescription(notes.getDescription());
+        notesDto.setDate(notes.getTimestamp());
 
         return notesDto;
     }
@@ -97,7 +96,7 @@ public class NotesService {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         notes.setTimestamp(timestamp);
 
-        notes.setUser(DtoToUser(notesDto.getUserDto()));
+       // notes.setUser(DtoToUser(notesDto.getUserDto()));
         return notes;
     }
 

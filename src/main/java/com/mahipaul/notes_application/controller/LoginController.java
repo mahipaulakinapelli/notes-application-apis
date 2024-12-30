@@ -45,6 +45,9 @@ public class LoginController {
             if(loginRequest.getPassword().equals(user.getPassword())) {
                 // Generate a real JWT token using JwtUtil
                 String token = jwtUtil.generateToken(user.getName());
+                HashMap<String,String> response = new HashMap<>();
+                response.put("token",token);
+
                 return  new ResponseEntity<>("{ \"token\": \"" + token + "\" }",HttpStatus.OK);
             }
         }
