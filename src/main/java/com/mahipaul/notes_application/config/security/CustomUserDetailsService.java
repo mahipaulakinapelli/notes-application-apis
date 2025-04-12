@@ -5,8 +5,6 @@
  */
 package com.mahipaul.notes_application.config.security;
 
-
-import com.mahipaul.notes_application.dto.UserDto;
 import com.mahipaul.notes_application.model.User;
 import com.mahipaul.notes_application.repository.UserRepository;
 import lombok.Getter;
@@ -26,24 +24,26 @@ import org.springframework.stereotype.Service;
 @Getter
 public class CustomUserDetailsService implements UserDetailsService {
 
+  private String password;
 
-    private String password;
+  @Autowired private UserRepository userRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+  @Override
+  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    User user =
+        userRepository
+            .findByName(username)
+            .orElseThrow(
+                () -> new UsernameNotFoundException("User not found with username: " + username));
+    return new CustomUserDetails(user);
+  }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByName(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
-        return new CustomUserDetails(user);
-    }
-
-//    public boolean checkIfValidUser(UserDTO userDTO, String userName) {
-//        if(StringUtils.equalsIgnoreCase(userDTO.getEmail(), userName) || StringUtils.equalsIgnoreCase(userDTO.getUserName(), userName)) {
-//            log.info("User is valid with username: {}", userName);
-//            return true;
-//        }
-//        return false;
-//    }
+  //    public boolean checkIfValidUser(UserDTO userDTO, String userName) {
+  //        if(StringUtils.equalsIgnoreCase(userDTO.getEmail(), userName) ||
+  // StringUtils.equalsIgnoreCase(userDTO.getUserName(), userName)) {
+  //            log.info("User is valid with username: {}", userName);
+  //            return true;
+  //        }
+  //        return false;
+  //    }
 }
