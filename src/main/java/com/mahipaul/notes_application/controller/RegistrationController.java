@@ -14,30 +14,29 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api")
 public class RegistrationController {
 
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
+  private final UserRepository userRepository;
+  private final PasswordEncoder passwordEncoder;
 
-    public RegistrationController(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
+  public RegistrationController(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    this.userRepository = userRepository;
+    this.passwordEncoder = passwordEncoder;
+  }
+
+  @PostMapping("/register")
+  public ResponseEntity<Object> registerUser(@RequestBody RegistrationRequest registrationRequest) {
+    if (userRepository.findByEmail(registrationRequest.getEmail()).isPresent()) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+          .body(new ErrorResponse("user already exists"));
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<Object> registerUser(@RequestBody RegistrationRequest registrationRequest) {
-        if (userRepository.findByEmail(registrationRequest.getEmail()).isPresent()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ErrorResponse("user already exists"));
-        }
+    // Create a new user
+    User user = new User();
+    user.setName(registrationRequest.getUsername());
+    user.setEmail(registrationRequest.getEmail());
+    user.setPassword(registrationRequest.getPassword());
+    userRepository.save(user);
 
-        // Create a new user
-        User user = new User();
-        user.setName(registrationRequest.getUsername());
-        user.setEmail(registrationRequest.getEmail());
-        user.setPassword(registrationRequest.getPassword());
-        userRepository.save(user);
-
-        // Return success message in JSON format
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(user);
-    }
+    // Return success message in JSON format
+    return ResponseEntity.status(HttpStatus.CREATED).body(user);
+  }
 }

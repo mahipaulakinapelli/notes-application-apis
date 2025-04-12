@@ -1,6 +1,5 @@
 package com.mahipaul.notes_application.dto;
 
-
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +10,7 @@ import lombok.Setter;
 @Setter
 @Data
 public class RegistrationRequest {
-    private String username;
-    private String password;
-    private String email;
+  private String username;
+  private String password;
+  private String email;
 }
