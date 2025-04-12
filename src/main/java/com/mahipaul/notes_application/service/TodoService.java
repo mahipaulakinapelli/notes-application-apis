@@ -34,7 +34,7 @@ public class TodoService {
 
   // Update ToDo
   public TodoDto updateToDo(TodoDto toDoDto, UUID toDoId, UUID userId) {
-    Todo toDo = toDoRepo.findByUserIdAndToDoId(userId, toDoId);
+    Todo toDo = toDoRepo.findByUserIdAndId(userId, toDoId);
     toDo.setTitle(toDoDto.getTitle());
     toDo.setDescription(toDoDto.getDescription());
     Todo res = toDoRepo.save(toDo);

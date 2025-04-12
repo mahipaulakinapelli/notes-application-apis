@@ -11,5 +11,5 @@ import org.springframework.stereotype.Repository;
 public interface TodoRepository extends JpaRepository<Todo, UUID> {
   List<Todo> findByUser(User user);
 
-  Todo findByUserIdAndToDoId(UUID userId, UUID toDoId);
+  Todo findByUserIdAndId(UUID userId, UUID id);
 }

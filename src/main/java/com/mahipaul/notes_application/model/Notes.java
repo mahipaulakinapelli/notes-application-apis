@@ -11,15 +11,16 @@ import org.hibernate.annotations.UuidGenerator;
 
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
-@AllArgsConstructor
 @Table(name = "notes")
 public class Notes {
 
   @Id
-  @Column(name = "id", nullable = false)
+  @GeneratedValue(generator = "UUID")
   @UuidGenerator(style = UuidGenerator.Style.TIME)
+  @Column(name = "id", nullable = false)
   private UUID id;
 
   @Column(name = "title", nullable = false)
@@ -31,7 +32,7 @@ public class Notes {
   @Column(name = "date")
   private Timestamp timestamp;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id", referencedColumnName = "id")
   private User user;
 }

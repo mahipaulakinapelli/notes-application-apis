@@ -4,6 +4,7 @@ import com.mahipaul.notes_application.dto.UserDto;
 import com.mahipaul.notes_application.model.User;
 import com.mahipaul.notes_application.repository.UserRepository;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,8 +59,11 @@ public class UserService {
 
   // Login
   public UserDto userLogin(String email, String password) {
-    User user = this.userRepo.findByEmailAndPassword(email, password);
-    return this.UserToDto(user);
+    Optional<User> user = this.userRepo.findByEmailAndPassword(email, password);
+    if (user.isEmpty()) {
+      throw new RuntimeException("User not found");
+    }
+    return this.UserToDto(user.get());
   }
 
   public User DtoToUser(UserDto userDto) {

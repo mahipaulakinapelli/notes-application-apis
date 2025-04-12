@@ -16,8 +16,9 @@ import org.hibernate.annotations.UuidGenerator;
 public class Todo {
 
   @Id
-  @Column(name = "id", nullable = false)
+  @GeneratedValue(generator = "UUID")
   @UuidGenerator(style = UuidGenerator.Style.TIME)
+  @Column(name = "id", nullable = false, updatable = false)
   private UUID id;
 
   @Column(name = "title", nullable = false)
@@ -29,7 +30,7 @@ public class Todo {
   @Column(name = "date")
   private Timestamp timestamp;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id", referencedColumnName = "id")
   private User user;
 }

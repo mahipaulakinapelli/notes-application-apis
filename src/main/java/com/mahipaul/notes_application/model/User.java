@@ -15,7 +15,7 @@ import org.hibernate.annotations.UuidGenerator;
 @Getter
 @Setter
 @Data
-@Table(name = "\"user\"") // Escaping the table name
+@Table(name = "\"user\"")
 public class User {
 
   @Id
@@ -33,6 +33,9 @@ public class User {
   @Column(name = "password", nullable = false)
   private String password;
 
-  @OneToMany(mappedBy = "user")
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private List<Notes> notes = new ArrayList<>();
+
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  private List<Todo> todos = new ArrayList<>();
 }
